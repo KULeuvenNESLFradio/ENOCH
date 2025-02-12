@@ -10,18 +10,6 @@ This repository contains all necessary files to **replicate and extend** our imp
 - Arduino source code and API documentation
 - Experimental setups and results
 
-## 📜 Publication
-This work is based on our paper:  
-**"ENOCH: ENabling On-body Network Contention Handling"** published at *PerCom 2025*. If you use this repository, please cite our work:
-```
-@inproceedings{Liu2025ENOCH,
-  author    = {Mengyao Liu and Jonathan Oostvogels and Bingwu Fang and Sam Michiels and Haoxiang Ma and Yang Yang and Danny Hughes},
-  title     = {ENOCH: ENabling On-body Network Contention Handling},
-  booktitle = {Proc. IEEE Int. Conf. Pervasive Comput. Commun. (PerCom)},
-  year      = {2025}
-}
-```
-
 ## 🛠 Hardware Setup
 ### Component Specifications
 - **Greinacher Voltage Multiplier:** A capacitive charge-pump circuit optimized for RF signal rectification.
