@@ -1,6 +1,6 @@
 # ENOCH: ENabling On-body Network Contention Handling
 
-![ENOCH Transceiver](img/DEMO.png)
+![ENOCH Transceiver](img/demo2.png)
 
 ## Overview
 ENOCH is a low-latency, capacitively coupled on-body communication system optimized for ultra-low-power operation. It employs off-the-shelf components and is programmed on an **Arduino Due**, making it accessible for researchers and developers interested in **body area networks (BANs)**.
@@ -66,7 +66,8 @@ void Read_bytes(byte load[]);   // Read received bytes
 boolean checkRxStatus();        // Check channel availability
 ```
 
-## ⚡ Experiments
+## ⚡ Experiments 
+![ENOCH Transceiver](img/demo.png)
 ### 1️⃣ Single Transmitter & Receiver
 - One **ENOCH board** transmits, the other receives.
 - The receiver outputs data via `Serial Monitor`.
