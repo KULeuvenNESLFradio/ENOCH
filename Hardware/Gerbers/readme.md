@@ -1,1 +1,4 @@
-
+-  **CaINV2.2**: Our evaluation board design.
+-  **BodyCaINv0.1Gerber**: Adapted to the GEMMA V2 interface.
+-  **ENOCHv1.0**: The most miniaturized design.
+-  **GerberBodyCaINseedv0.2**: Adapted to the Seeed Studio nRF52840
