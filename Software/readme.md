@@ -37,7 +37,7 @@ In this setup, an additional Arduino trigger board is required to synchronize tr
 void buttonISR() {
     buttonPressed = true;
     FristTrigger = true;
-    digitalWriteDirect(CaINTxRxSwitch, LOW);
+    digitalWriteDirect(ENOCHTxRxSwitch, LOW);
     Send_preamble(x);
 }  
 
@@ -45,19 +45,19 @@ if (buttonPressed) {
     do {
         if (checkRxStatus() != RX_BUSY) {
             if (FristTrigger) {
-                digitalWriteDirect(CaINTxRxSwitch, LOW); 
+                digitalWriteDirect(ENOCHTxRxSwitch, LOW); 
                 Send_bytes('0', 'N', 'O', 'D', 'E', '0', '0');
-                digitalWriteDirect(CaINTxRxSwitch, HIGH);
+                digitalWriteDirect(ENOCHTxRxSwitch, HIGH);
                 FristTrigger = false;
                 buttonPressed = false;
             } else {
                 FristTrigger = false;
-                digitalWriteDirect(CaINTxRxSwitch, LOW);
+                digitalWriteDirect(ENOCHTxRxSwitch, LOW);
                 Send_preamble(10);
                 if (checkRxStatus() != RX_BUSY) {
-                    digitalWriteDirect(CaINTxRxSwitch, LOW); 
+                    digitalWriteDirect(ENOCHTxRxSwitch, LOW); 
                     Send_bytes('0', 'N', 'O', 'D', 'E', '0', '0');
-                    digitalWriteDirect(CaINTxRxSwitch, HIGH);
+                    digitalWriteDirect(ENOCHTxRxSwitch, HIGH);
                     buttonPressed = false;
                 }
             }
