@@ -1,1 +1,3 @@
-
+- **CaINv2.2**: Our evaluation board design.
+- **bodyCaINCir**: Adapted to the GEMMA V2 interface.
+- **ENOCHv1.0**: The most miniaturized design.
