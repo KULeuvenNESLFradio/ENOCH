@@ -2,6 +2,28 @@
 
 ![ENOCH Transceiver](img/demo2.png)
 
+## 📄 Citation
+If you use this work, please cite:
+ENOCH: ENabling On-body Network Contention Handling  
+Mengyao Liu, Jonathan Oostvogels, Bingwu Fang, Sam Michiels, Haoxiang Ma, Yang Yang, and Danny Hughes  
+In *Proceedings of the IEEE International Conference on Pervasive Computing and Communications (PerCom)*,  
+Washington, DC, USA, March 17–21, 2025. IEEE, 2025.
+
+### 📚 BibTeX
+```bibtex
+@inproceedings{Liu2025ENOCH,
+  author       = {Mengyao Liu and Jonathan Oostvogels and Bingwu Fang and Sam Michiels and Haoxiang Ma and Yang Yang and Danny Hughes},
+  title        = {{ENOCH: ENabling On-body network Contention Handling}},
+  booktitle    = {Proceedings of the IEEE International Conference on Pervasive Computing and Communications (PerCom)},
+  year         = {2025},
+  organization = {IEEE},
+  address      = {Washington, DC, USA},
+  month        = {March},
+  pages        = {17--21},
+  doi          = {10.1109/PerCom2025.XXXX}  % 请在 DOI 可用时添加
+}
+```
+
 ## Overview
 ENOCH is a low-latency, capacitively coupled on-body communication system optimized for ultra-low-power operation. It employs off-the-shelf components and is programmed on an **Arduino Due**, making it accessible for researchers and developers interested in **body area networks (BANs)**.
 
