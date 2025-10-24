@@ -1,9 +1,8 @@
 #define CaINRxGPIO  6 
 #define CaINTxRxSwitch 8
 //#define CaINTxRxSwitch 4
-//byte Address8bits[8] = {0, 0, 1, 0, 0, 1, 0, 1 };
-byte Address8bits[8] = { 0, 0, 1, 0, 0, 1, 0, 1  };
-
+// byte Address8bits[8] = {0, 0, 1, 0, 0, 1, 0, 1 };
+byte Address8bits[8] =  { 0, 0, 1, 0, 0, 1, 0, 1 };
 
 //const int packetsize = 56;
 const int packetsize = 56;
@@ -11,33 +10,37 @@ byte payload[packetsize];
 byte CaINBuffer[1024];
 int CaINBufferSize =0;
 
-//const  int Original_T=200;
-//const  int Tolerance_T=140;
-//const  int TimeOut = Original_T + Tolerance_T;
-////const  int PeriodDiff01 = Original_T - Tolerance_T;
-//const  int PeriodDiff = 150;
+// const  int Original_T=200;
+// const  int Tolerance_T=140;
+// const  int TimeOut = Original_T + Tolerance_T;
+// //const  int PeriodDiff01 = Original_T - Tolerance_T;
+// const  int PeriodDiff = 150;
 
 
-//const  int Original_T=20;
-//const  int Tolerance_T=15;
-//const  int TimeOut = Original_T + Tolerance_T;
-////const  int PeriodDiff01 = Original_T - Tolerance_T;
-//const  int PeriodDiff = 17;
+// const  int Original_T=20;
+// const  int Tolerance_T=17;
+// const  int TimeOut = Original_T + Tolerance_T;
+// //const  int PeriodDiff01 = Original_T - Tolerance_T;
+// const  int PeriodDiff = 17;
 
-
-//const  int Original_T=80;
-//const  int Tolerance_T=60;
-//const  int TimeOut = Original_T + Tolerance_T;
-////const  int PeriodDiff01 = Original_T - Tolerance_T;
-//const  int PeriodDiff = 60;
-//
-////
-const  int Original_T=100;
-const  int Tolerance_T=70;
+const  int Original_T=80;
+const  int Tolerance_T=90;
 const  int TimeOut = Original_T + Tolerance_T;
 //const  int PeriodDiff01 = Original_T - Tolerance_T;
-const  int PeriodDiff = 70;
+const  int PeriodDiff = 50;
 
+// const  int Original_T=50;
+// const  int Tolerance_T=70;
+// const  int TimeOut = Original_T + Tolerance_T;
+// //const  int PeriodDiff01 = Original_T - Tolerance_T;
+// const  int PeriodDiff = 70;
+//
+////
+// const  int Original_T=100;
+// const  int Tolerance_T=70;
+// const  int TimeOut = Original_T + Tolerance_T;
+// //const  int PeriodDiff01 = Original_T - Tolerance_T;
+// const  int PeriodDiff = 70;
 
 ////
 //const  int Original_T=400;
@@ -152,7 +155,7 @@ byte array_to_ascii(byte arr[])
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(250000);
-  Serial.println("Start Receive!");
+ // Serial.println("Start Receive!");
   pinMode(CaINRxGPIO,INPUT); 
   pinMode(CaINTxRxSwitch,OUTPUT); 
   digitalWriteDirect(CaINTxRxSwitch, HIGH);

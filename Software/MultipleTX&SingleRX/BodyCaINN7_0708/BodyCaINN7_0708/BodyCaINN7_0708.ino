@@ -1,4 +1,3 @@
-// 
 #define CaINTxGPIO PIO_PC23B_PWML6  
 #define CaINTxRxSwitch 8 
 #define CaINOPWMSW 2
@@ -8,12 +7,12 @@
 #define OffRadioFlag LOW
 
 /* Generate the PWM (12 MHz) */
-const uint8_t BitRate20khz = 100;
-const uint8_t Period12Mhz = 8;
-const uint8_t Duty12Mhz = 4;
+const uint8_t BitRate20khz = 80;
+const uint8_t Period12Mhz = 2;
+const uint8_t Duty12Mhz = 1;
 
 volatile bool buttonPressed = false; 
-volatile bool FirstTrigger = false;
+volatile bool firstTrigger = false;
 volatile uint8_t Preambletimes = 0;
 byte Address_Node[8] = { 0, 0, 1, 0, 0, 1, 0, 1 };
 volatile boolean TxState ;
@@ -146,6 +145,7 @@ void Send_bytes(byte byteload0, byte byteload1, byte byteload2, byte byteload3, 
   //line must be high after sync
   TxState = HIGH;
   TxState = Send_load(Address_Node, TxState);
+  TxState = HIGH;
   TxState = Send_load(Dataload0Arr, TxState);
   TxState = Send_load(Dataload1Arr, TxState);
   TxState = Send_load(Dataload2Arr, TxState);
@@ -157,9 +157,9 @@ void Send_bytes(byte byteload0, byte byteload1, byte byteload2, byte byteload3, 
 }
 
 
-#define TIMEOUT_IDLE 180
-#define THRESHOLD_BUSY_1 40
-#define THRESHOLD_BUSY_2 100
+#define TIMEOUT_IDLE 170
+#define THRESHOLD_BUSY_1 50
+#define THRESHOLD_BUSY_2 80
 #define RX_BUSY true
 #define RX_IDLE false
 
@@ -168,33 +168,65 @@ boolean checkRxStatus() {
   boolean initialState = digitalReadDirect(CaINRxGPIO);  // Read the initial state
   long elapsedTime;
   boolean currentRxState;
-  
+
   while (true) {
     currentRxState = digitalReadDirect(CaINRxGPIO);  // Read the current state
     
-    if (currentRxState != initialState) 
-    {  // State has changed    
-        elapsedTime = micros() - startTime;  // Calculate elapsed time
-        if (elapsedTime < THRESHOLD_BUSY_2) {
-          return RX_BUSY;  // Busy: state change time is less than 50 microseconds
-        }
-//        else if (elapsedTime > THRESHOLD_BUSY_3) 
-//          return RX_IDLE;
-//      // Update the initial state and start time
+    if (currentRxState != initialState) {  // State has changed
+      
+      elapsedTime = micros() - startTime;  // Calculate elapsed time
+      if (elapsedTime < THRESHOLD_BUSY_2) {
+        return RX_BUSY;  // Busy: state change time is less than 50 microseconds
+      } 
       initialState = currentRxState;
       startTime = micros();
-   }
-    if ((micros() - startTime) > TIMEOUT_IDLE) 
-    {
+    }
+    if ((micros() - startTime) > TIMEOUT_IDLE) {
       return RX_IDLE;  // Idle: no state change for more than 120 microseconds
     }
   }
 }
 
 
-#define TIMEOUT_IDLE0 100
-#define THRESHOLD_BUSY_10 40
-#define THRESHOLD_BUSY_20 100
+//#define TIMEOUT_IDLE1 270
+//#define THRESHOLD_BUSY_11 60
+//#define THRESHOLD_BUSY_21 110
+//#define RX_BUSY1 true
+//#define RX_IDLE1 false
+//
+//boolean checkRxStatus1() {
+//  
+//  long startTime = micros();  // Record the start time
+//  boolean initialState = digitalReadDirect(CaINRxGPIO);  // Read the initial state
+//  long elapsedTime;
+//  boolean currentRxState;
+//
+//  while (true) {
+//    currentRxState = digitalReadDirect(CaINRxGPIO);  // Read the current state
+//    
+//    if (currentRxState != initialState) {  // State has changed
+//      
+//      elapsedTime = micros() - startTime;  // Calculate elapsed time
+//      if (elapsedTime < THRESHOLD_BUSY_21) {
+//        return RX_BUSY1;  // Busy: state change time is less than 50 microseconds
+//      } 
+//      initialState = currentRxState;
+//      startTime = micros();
+//    }
+//    if ((micros() - startTime) > TIMEOUT_IDLE1) {
+//      return RX_IDLE1;  // Idle: no state change for more than 120 microseconds
+//    }
+//  }
+//}
+
+// #define TIMEOUT_IDLE0 100
+// #define THRESHOLD_BUSY_10 40
+// #define THRESHOLD_BUSY_20 100
+// #define RX_BUSY0 true
+// #define RX_IDLE0 false
+#define TIMEOUT_IDLE0 80
+#define THRESHOLD_BUSY_10 30
+#define THRESHOLD_BUSY_20 80
 #define RX_BUSY0 true
 #define RX_IDLE0 false
 
@@ -226,30 +258,38 @@ boolean checkRxStatus0() {
   }
 }
 
-
 void sendData() {
     digitalWriteDirect(CaINTxRxSwitch, LOW);
-    Send_bytes('1', 'N', 'O', 'D', 'E', '1', '1');
+    Send_bytes('7', 'N', 'O', 'D', 'E', '7', '7');
     digitalWriteDirect(CaINTxRxSwitch, HIGH);
 }
 
 void sendPreamble() {
     digitalWriteDirect(CaINTxRxSwitch, LOW);
-    Send_preamble(9);
+    Send_preamble(3);
     digitalWriteDirect(CaINTxRxSwitch, HIGH);
 }
 
+// Function to send preamble multiple times
+void sendPreambleWithCheck(int times) {
+  for (int i = 0; i < times; i++) {
+    sendPreamble();
+    Preambletimes++;
+    while (checkRxStatus() == RX_BUSY); // Assuming checkRxStatus() function is used everywhere consistently
+  }
+}
 
 // Interrupt service routine for the button press
 void buttonISR() {
     buttonPressed = true;
-    FirstTrigger = true ;
+    firstTrigger = true ;
 }
+
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(250000);
-  Serial.println("Welcome to BodyCaIN");
+  Serial.println("Welcome to seth7");
   pinMode(CaINRxGPIO,INPUT); 
   pinMode(CaINTxRxSwitch,OUTPUT); 
   pinMode(CaINOPWMSW, OUTPUT);
@@ -261,31 +301,33 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly
+  // put your main code here, to run repeatedly:
   if (buttonPressed){
-    sendPreamble();
+     sendPreamble(); 
     do{ 
         if (checkRxStatus() != RX_BUSY)
         { 
-          if(FirstTrigger){
+          if(firstTrigger){
             sendData();
-            FirstTrigger = false;
+            firstTrigger = false;
             buttonPressed = false ;
           }
           else{
-            Preambletimes=1;
+            sendPreambleWithCheck(6);
+            Preambletimes =7;
             sendPreamble();
-            while (checkRxStatus0() == RX_BUSY);
-            if(Preambletimes == 1)
+
+            while (checkRxStatus0() == RX_BUSY0);
+            if(Preambletimes == 7)
             {
               sendData();
-              Preambletimes =0; 
+              Preambletimes = 0;
               buttonPressed = false ;
             }
         }
       }
-      FirstTrigger = false;
+      firstTrigger = false;
     }
     while (buttonPressed);
   }
-}
+ }
