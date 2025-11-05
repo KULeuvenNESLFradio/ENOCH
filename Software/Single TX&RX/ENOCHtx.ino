@@ -5,12 +5,12 @@
 #define OnRadioFlag HIGH
 #define OffRadioFlag LOW
 
-const uint32_t BitRate5khz = 200;
+const uint32_t BitRate5khz = 100;
 const uint8_t BitRate1khz = 1;
 
 /* Generate the PWM (42 MHz) */
-const uint8_t Period42Mhz = 2;
-const uint8_t Duty42Mhz = 1;
+const uint8_t Period42Mhz = 8;
+const uint8_t Duty42Mhz = 4;
 
 byte Address_Node0[8] = { 0, 1, 1, 0, 0, 1, 0, 1 };
 byte Address_Node1[8] = { 0, 0, 1, 0, 0, 1, 0, 1 };
@@ -130,6 +130,8 @@ boolean Send_load(byte start[], boolean state) {
 }
 
 
+
+
 /*send a sync signal + a start byte + load ; load is an array of 8 bit, no more no less !!*/
 void Send_bytes(byte byteload0, byte byteload1, byte byteload2, byte byteload3, byte byteload4, byte byteload5, byte byteload6) {
 
@@ -182,30 +184,30 @@ void setup() {
   digitalWriteDirect(CaINOPWMSW, HIGH);
   pinMode(CaINTxRxSwitch, OUTPUT);
   digitalWrite(CaINTxRxSwitch, LOW);
-  delay(5000);
+  delay(2000);
 }
 
 void loop() {
   
   Send_bytes('0', 'A', 'b' , 'C', 's', 'i','0');
-  delay(2000);
+  delay(1000);
   Send_bytes('1', 'B', 'b' , 'F', 'f', 'b','1');
-  delay(2000);
+  delay(1000);
   Send_bytes('2', 'A', 'n' , 'A', 'd', 'a','2');
-  delay(2000);
+  delay(1000);
   Send_bytes('3', 'f', 'g' , 'A', 'B', 's','3');
-  delay(2000);
+  delay(1000);
   Send_bytes('4', 'a', 'b' , 'F', 'd', 'A','4');
-  delay(2000);
+  delay(1000);
   Send_bytes('5', 'D', 'b' , 'A', 'A', 'b','5');
-  delay(2000);
+  delay(1000);
   Send_bytes('6', 'T', 'b' , 'B', 'B', 'b','6');
-  delay(2000);
+  delay(1000);
   Send_bytes('7', 'a', 'b' , 'b', 'A', '0','7');
-  delay(2000);
+  delay(1000);
   Send_bytes('8', 'a', 'b' , 'i', 'b', 'a','8');
-  delay(2000);
+  delay(1000);
   Send_bytes('9', 'B', 'b' , 'A', 'a', 'a','9');
-  delay(2000);
+  delay(1000);
   
 }

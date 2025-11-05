@@ -7,9 +7,9 @@
 #define OffRadioFlag LOW
 
 /* Generate the PWM (12 MHz) */
-const uint8_t BitRate20khz = 80;
-const uint8_t Period12Mhz = 2;
-const uint8_t Duty12Mhz = 1;
+const uint8_t BitRate20khz = 100;
+const uint8_t Period12Mhz = 8;
+const uint8_t Duty12Mhz = 4;
 
 volatile bool buttonPressed = false; 
 volatile bool firstTrigger = false;
@@ -141,7 +141,7 @@ void Send_bytes(byte byteload0, byte byteload1, byte byteload2, byte byteload3, 
   Ascii_to_BinaryAarray(byteload6, Dataload6Arr);
 
   // Send 32 cycles for preamble
-  Send_sync(10);
+  Send_sync(2);
   //line must be high after sync
   TxState = HIGH;
   TxState = Send_load(Address_Node, TxState);
@@ -157,9 +157,9 @@ void Send_bytes(byte byteload0, byte byteload1, byte byteload2, byte byteload3, 
 }
 
 
-#define TIMEOUT_IDLE 170
-#define THRESHOLD_BUSY_1 50
-#define THRESHOLD_BUSY_2 80
+#define TIMEOUT_IDLE 180
+#define THRESHOLD_BUSY_1 60
+#define THRESHOLD_BUSY_2 100
 #define RX_BUSY true
 #define RX_IDLE false
 
@@ -219,20 +219,9 @@ boolean checkRxStatus() {
 //  }
 //}
 
-// #define TIMEOUT_IDLE0 100
-// #define THRESHOLD_BUSY_10 40
-// #define THRESHOLD_BUSY_20 100
-// #define RX_BUSY0 true
-// #define RX_IDLE0 false
-// #define TIMEOUT_IDLE 170
-// #define THRESHOLD_BUSY_1 50
-// #define THRESHOLD_BUSY_2 80
-// #define RX_BUSY true
-// #define RX_IDLE false
-
-#define TIMEOUT_IDLE0 80
-#define THRESHOLD_BUSY_10 30
-#define THRESHOLD_BUSY_20 80
+#define TIMEOUT_IDLE0 100
+#define THRESHOLD_BUSY_10 40
+#define THRESHOLD_BUSY_20 100
 #define RX_BUSY0 true
 #define RX_IDLE0 false
 
@@ -267,13 +256,13 @@ boolean checkRxStatus0() {
 
 void sendData() {
     digitalWriteDirect(CaINTxRxSwitch, LOW);
-    Send_bytes('3', 'N', 'O', 'D', 'E', '3', '3');
+    Send_bytes('4', 'N', 'O', 'D', 'E', '4', '4');
     digitalWriteDirect(CaINTxRxSwitch, HIGH);
 }
 
 void sendPreamble() {
     digitalWriteDirect(CaINTxRxSwitch, LOW);
-    Send_preamble(7);
+    Send_preamble(6);
     digitalWriteDirect(CaINTxRxSwitch, HIGH);
 }
 
@@ -296,7 +285,7 @@ void buttonISR() {
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(250000);
-  Serial.println("Welcome to seth3");
+  Serial.println("Welcome to BodyCaIN");
   pinMode(CaINRxGPIO,INPUT); 
   pinMode(CaINTxRxSwitch,OUTPUT); 
   pinMode(CaINOPWMSW, OUTPUT);
@@ -320,11 +309,11 @@ void loop() {
             buttonPressed = false ;
           }
           else{
-            sendPreambleWithCheck(2);
-            Preambletimes =3;
+            sendPreambleWithCheck(3);
+            Preambletimes =4;
             sendPreamble();
             while (checkRxStatus0() == RX_BUSY0);
-            if(Preambletimes == 3)
+            if(Preambletimes == 4)
             {
               sendData();
               Preambletimes = 0;
